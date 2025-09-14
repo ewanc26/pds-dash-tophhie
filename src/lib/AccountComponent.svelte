@@ -4,7 +4,7 @@
   import { Config } from "../../config";
 </script>
 
-<a id="link" href="{Config.FRONTEND_URL}/profile/{account.did}">
+<a id="link" href="{Config.FRONTEND_URL}/profile/{account.handle || account.did}">
   <div id="accountContainer">
     {#if account.avatarCid}
       <img

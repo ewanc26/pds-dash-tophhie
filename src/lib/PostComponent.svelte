@@ -66,7 +66,7 @@
       />
     {/if}
     <div id="headerText">
-      <a id="displayName" href="{Config.FRONTEND_URL}/profile/{post.authorDid}"
+      <a id="displayName" href="{Config.FRONTEND_URL}/profile/{post.authorHandle}"
         >{post.displayName}</a
       >
       <p id="handle">
@@ -76,7 +76,7 @@
 
         <a
           id="postLink"
-          href="{Config.FRONTEND_URL}/profile/{post.authorDid}/post/{post.recordName}"
+          href="{Config.FRONTEND_URL}/profile/{post.authorHandle}/post/{post.recordName}"
           >{moment(post.timenotstamp).isBefore(moment().subtract(1, "month"))
             ? moment(post.timenotstamp).format("MMM D, YYYY")
             : moment(post.timenotstamp).fromNow()}</a

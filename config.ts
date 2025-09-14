@@ -6,7 +6,7 @@ export class Config {
    * The base URL of the PDS (Personal Data Server).
    * @default none
    */
-  static readonly PDS_URL: string = "";
+  static readonly PDS_URL: string = "https://pds.tophhie.cloud";
 
   /**
    * Theme to be used
@@ -18,7 +18,7 @@ export class Config {
    * The base URL of the frontend service for linking to replies/quotes/accounts etc.
    * @default "https://deer.social" // or https://bsky.app if you're boring
    */
-  static readonly FRONTEND_URL: string = "https://deer.social";
+  static readonly FRONTEND_URL: string = "https://bsky.app";
 
   /**
    * Maximum number of posts to fetch from the PDS per request
@@ -34,7 +34,7 @@ export class Config {
    * @default "<a href='https://git.witchcraft.systems/scientific-witchery/pds-dash' target='_blank'>Source</a> (<a href='https://github.com/witchcraft-systems/pds-dash/' target='_blank'>github mirror</a>)"
    */
   static readonly FOOTER_TEXT: string =
-    "<a href='https://github.com/Tophhie/pds-dash' target='_blank'>Source</a> (Forked with ❤️ from <a href='https://git.witchcraft.systems/scientific-witchery/pds-dash' target='_blank'>witchcraft.systems</a>)
+    "<a href='https://github.com/Tophhie/pds-dash' target='_blank'>Source</a> (Forked with ❤️ from <a href='https://git.witchcraft.systems/scientific-witchery/pds-dash' target='_blank'>witchcraft.systems</a>)"
 
   /**
    * Whether to show the posts with timestamps that are in the future.

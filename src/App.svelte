@@ -59,8 +59,8 @@
       <p>Loading...</p>
     {:then accountsData}
       <div id="Account">
-        <h1 onclick={carameldansenfusion} id="Header">ATProto PDS</h1>
-        <p>Home to {accountsData.length} accounts</p>
+        <h1 onclick={carameldansenfusion} id="Header">Tophhie Social</h1>
+        <p style="font-weight:bold;">Home to {accountsData.length} accounts 🎉</p>
         <div id="accountsList">
           {#each accountsData as accountObject}
             <AccountComponent account={accountObject} />

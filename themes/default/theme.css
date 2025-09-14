@@ -6,7 +6,7 @@
   --link-color: hsl(var(--primary-h), 73%, 59%);
   --link-hover-color: #4338ca;
   --time-color: #8b5cf6;
-  --background-color: #f8fafc;
+  --background-color: #100235;
   --header-background-color: #ffffff;
   --content-background-color: #ffffff;
   --text-color: #111827;
@@ -96,7 +96,7 @@ h1 {
 #displayName {
   display: block;
   color: var(--text-color);
-  font-size: 1.1em;
+  font-size: 1.2em;
   padding: 0;
   margin: 0 0 2px 0;
   text-overflow: ellipsis;
