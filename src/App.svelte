@@ -61,6 +61,8 @@
       <div id="Account">
         <h1 onclick={carameldansenfusion} id="Header">Tophhie Social</h1>
         <p style="font-weight:bold;">Home to {accountsData.length} accounts 🎉</p>
+        <p>Want to join? Head to <a href="https://pdsmoover.com">pdsmoover.com</a> to get started!</p>
+        <p style="font-size:small">Use the new PDS URL <strong>https://tophhie.social</strong>, and a new handle ending in either tophhie.social or your own domain.</p>
         <div id="accountsList">
           {#each accountsData as accountObject}
             <AccountComponent account={accountObject} />
