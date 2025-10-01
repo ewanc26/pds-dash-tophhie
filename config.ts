@@ -6,7 +6,7 @@ export class Config {
    * The base URL of the PDS (Personal Data Server).
    * @default none
    */
-  static readonly PDS_URL: string = "https://pds.tophhie.cloud";
+  static readonly PDS_URL: string = "https://tophhie.social";
 
   /**
    * Theme to be used

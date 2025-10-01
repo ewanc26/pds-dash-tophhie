@@ -62,8 +62,9 @@
         <h1 onclick={carameldansenfusion} id="Header">Tophhie Social</h1>
         
         <p style="font-weight:bold;">Home to {accountsData.length} accounts 🎉</p>
-        <p>Want to join us? <a href="/signup">Sign up now!</a></p>
+        <p>Want to join us?<br /><a href="/signup">Sign up now!</a></p>
         <p>Already have a Bluesky account?<br /><a href="/migrate">Migrate your account now!</a></p>
+        <p>Join the Tophhie Social Community!<br /><a href="https://aka.tophhie.cloud/socialcommunitysignup">Join today!</a></p>
         <div id="accountsList">
           {#each accountsData as accountObject}
             <AccountComponent account={accountObject} />
