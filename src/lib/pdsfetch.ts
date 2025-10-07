@@ -24,6 +24,7 @@ interface AccountMetadata {
   handle: string;
   avatarCid: string | null;
   currentCursor?: string;
+  deactivated?: boolean;
 }
 
 let accountsMetadata: AccountMetadata[] = [];
@@ -127,8 +128,12 @@ const getDidsFromPDS = async (): Promise<At.Did[]> => {
   const { data } = await rpc.get("com.atproto.sync.listRepos", {
     params: {},
   });
-  return data.repos.map((repo: any) => repo.did) as At.Did[];
+
+  return data.repos
+    .filter((repo: any) => repo.active !== false)
+    .map((repo: any) => repo.did) as At.Did[];
 };
+
 const getAccountMetadata = async (
   did: `did:${string}:${string}`,
 ) => {
@@ -137,6 +142,7 @@ const getAccountMetadata = async (
     handle: "", // Guaranteed to be filled out later
     displayName: "",
     avatarCid: null,
+    deactivated: false,
   };
 
   try {
