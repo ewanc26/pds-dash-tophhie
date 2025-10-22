@@ -8,9 +8,11 @@
     "npm:@tsconfig/svelte@^5.0.4": "5.0.4",
     "npm:moment@^2.30.1": "2.30.1",
     "npm:mutex-ts@^1.2.1": "1.2.1",
+    "npm:shadcn-svelte@^1.0.8": "1.0.8",
     "npm:svelte-check@^4.1.5": "4.3.1_svelte@5.38.10__acorn@8.15.0_typescript@5.7.3",
     "npm:svelte-infinite-loading@^1.4.0": "1.4.0",
     "npm:svelte@^5.23.1": "5.38.10_acorn@8.15.0",
+    "npm:tailwindcss@^4.1.15": "4.1.15",
     "npm:typescript@~5.7.2": "5.7.3",
     "npm:vite@^6.3.6": "6.3.6_picomatch@4.0.3"
   },
@@ -362,6 +364,9 @@
     "clsx@2.1.1": {
       "integrity": "sha512-eYm0QWBtUrBWZWG0d386OGAw16Z995PiOVo2B7bjWSbHedGl5e0ZWaq65kOGgUSNesEIDkB9ISbTg/JK9dhCZA=="
     },
+    "commander@14.0.1": {
+      "integrity": "sha512-2JkV3gUZUVrbNA+1sjBOYLsMZ5cEEl8GTFP2a4AVz5hvasAMCQ1D2l2le/cX+pV4N6ZU17zjUahLpIXRrnWL8A=="
+    },
     "debug@4.4.3": {
       "integrity": "sha512-RGwwWnwQvkVfavKVt22FGLw+xYSdzARwm0ru6DhTVA3umU5hZc28V3kO4stgYryrTlLpuvgI9GiijltAjNbcqA==",
       "dependencies": [
@@ -461,6 +466,9 @@
       "integrity": "sha512-N8SpfPUnUp1bK+PMYW8qSWdl9U+wwNWI4QKxOYDy9JAro3WMX7p2OeVRF9v+347pnakNevPmiHhNmZ2HbFA76w==",
       "bin": true
     },
+    "node-fetch-native@1.6.7": {
+      "integrity": "sha512-g9yhqoedzIUm0nTnTqAQvueMPVOuIY16bqgAJJC8XOOubYFNwz6IER9qs0Gq2Xd0+CecCKFjtdDTMA4u4xG06Q=="
+    },
     "picocolors@1.1.1": {
       "integrity": "sha512-xceH2snhtb5M9liqDsmEw56le376mTZkEX/jEb/RxNFyegNul7eNslCXP9FDj/Lcu0X8KEyMceP2ntpaHrDEVA=="
     },
@@ -515,6 +523,15 @@
         "mri"
       ]
     },
+    "shadcn-svelte@1.0.8": {
+      "integrity": "sha512-nsCbuYUmIz74zSkhDQKAXg44ByOecRQEURZPXH5J2kEuIAfxBIz1Zv3OVTy9A5E6YyX0/9I14HXGlDZwEfTRpw==",
+      "dependencies": [
+        "commander",
+        "node-fetch-native",
+        "postcss"
+      ],
+      "bin": true
+    },
     "source-map-js@1.2.1": {
       "integrity": "sha512-UXWMKhLOwVKb728IUtQPXxfYU+usdybtUrK/8uGE8CQMvrhOpwvzDBwj0QhSL7MQc7vIsISBG8VQ8+IDQxpfQA=="
     },
@@ -552,6 +569,9 @@
         "magic-string",
         "zimmerframe"
       ]
+    },
+    "tailwindcss@4.1.15": {
+      "integrity": "sha512-k2WLnWkYFkdpRv+Oby3EBXIyQC8/s1HOFMBUViwtAh6Z5uAozeUSMQlIsn/c6Q2iJzqG6aJT3wdPaRNj70iYxQ=="
     },
     "tinyglobby@0.2.15_picomatch@4.0.3": {
       "integrity": "sha512-j2Zq4NyQYG5XMST4cbs02Ak8iJUdxRM0XI5QyxXuZOzKOINmWurp3smXu3y5wDcJrptwpSjgXHzIQxR0omXljQ==",
@@ -602,9 +622,11 @@
         "npm:@tsconfig/svelte@^5.0.4",
         "npm:moment@^2.30.1",
         "npm:mutex-ts@^1.2.1",
+        "npm:shadcn-svelte@^1.0.8",
         "npm:svelte-check@^4.1.5",
         "npm:svelte-infinite-loading@^1.4.0",
         "npm:svelte@^5.23.1",
+        "npm:tailwindcss@^4.1.15",
         "npm:typescript@~5.7.2",
         "npm:vite@^6.3.6"
       ]

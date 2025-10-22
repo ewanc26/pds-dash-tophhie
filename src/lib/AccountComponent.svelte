@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { AccountMetadata } from "./pdsfetch";
-  const { account }: { account: AccountMetadata } = $props();
+  const { account, welcome }: { account: AccountMetadata; welcome?: boolean } = $props();
   import { Config } from "../../config";
 </script>
 
@@ -12,6 +12,11 @@
         alt="avatar of {account.displayName}"
         src="{Config.PDS_URL}/xrpc/com.atproto.sync.getBlob?did={account.did}&cid={account.avatarCid}"
       />
+      {#if welcome}
+      <div id="accountName">
+        A big welcome to our latest member... 
+      </div>
+      {/if}
       <div id="accountName">
         {account.displayName || account.handle || account.did}
       </div>
@@ -22,7 +27,3 @@
     {/if}
   </div>
 </a>
-
-<style>
-
-</style>

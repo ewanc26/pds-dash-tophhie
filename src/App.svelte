@@ -59,12 +59,16 @@
       <p>Loading...</p>
     {:then accountsData}
       <div id="Account">
-        <h1 onclick={carameldansenfusion} id="Header">Tophhie Social</h1>
-        
-        <p style="font-weight:bold;">Home to {accountsData.length} accounts/repos 🎉</p>
-        <p>Want to join us?<br /><a href="/signup">Sign up now!</a></p>
-        <p>Already have a Bluesky account?<br /><a href="/migrate">Migrate your account now!</a></p>
-        <p>Join the Tophhie Social Community!<br /><a href="https://aka.tophhie.cloud/socialcommunitysignup">Join today!</a></p>
+        <div>
+          <img src="https://blob.tophhie.cloud/tophhiecloud-resources/Logos/tophhiecloud-colour.png" height=50 alt="Tophhie Social Logo" id="Logo" style="padding:20px" />
+          <h1 onclick={carameldansenfusion} id="Header">Tophhie Social</h1>
+          <p style="font-weight:bold;">Home to {accountsData.length} accounts/repos 🎉</p>
+        </div>
+        <div style="margin-bottom:20px;">
+          <p>Want to join us?<br /><a href="/signup">Sign up now!</a></p>
+          <p>Already on Bluesky?<br /><a href="/migrate">Migrate your account now!</a></p>
+          <p>Join the Tophhie Social Community!<br /><a href="https://aka.tophhie.cloud/socialcommunitysignup">Join today!</a></p>
+        </div>
         <div id="accountsList">
           {#each accountsData as accountObject}
             <AccountComponent account={accountObject} />
@@ -77,12 +81,17 @@
     {/await}
 
     <div id="Feed">
-      <div id="spacer"></div>
+          {#await accountsPromise}
+      <p>Loading...</p>
+      {:then accountsData}
+          <AccountComponent account={accountsData[accountsData.length - 1]} welcome />
+      {:catch error}
+        <p>Error: {error.message}</p>
+      {/await}
       {#each posts as postObject}
         <PostComponent post={postObject as Post} />
       {/each}
         <InfiniteLoading on:infinite={onInfinite} distance={3000} />
-      <div id="spacer"></div>
     </div>
   </div>
 </main>
