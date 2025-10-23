@@ -65,8 +65,8 @@
           <p style="font-weight:bold;">Home to {accountsData.length} accounts/repos 🎉</p>
         </div>
         <div style="margin-bottom:20px;">
-          <p>Want to join us?<br /><a href="/signup">Sign up now!</a></p>
-          <p>Already on Bluesky?<br /><a href="/migrate">Migrate your account now!</a></p>
+          <p>Want to join us?<br /><a href="https://signup.tophhie.social">Sign up now!</a></p>
+          <p>Already on Bluesky?<br /><a href="https://migrate.tophhie.social">Migrate your account now!</a></p>
           <p>Join the Tophhie Social Community!<br /><a href="https://aka.tophhie.cloud/socialcommunitysignup">Join today!</a></p>
         </div>
         <div id="accountsList">
