@@ -12,17 +12,31 @@
         alt="avatar of {account.displayName}"
         src="{Config.PDS_URL}/xrpc/com.atproto.sync.getBlob?did={account.did}&cid={account.avatarCid}"
       />
-      {#if welcome}
+      <div style="display: flex; flex-direction: column; width: 100%">
+        {#if welcome}
+        <div id="accountName">
+          Welcome to our latest member... 
+        </div>
+        {/if}
+        <div id="accountName">
+          {account.displayName || account.handle || account.did}
+        </div>
+      </div>
+    {:else}
+    {#if welcome}
       <div id="accountName">
         A big welcome to our latest member... 
       </div>
       {/if}
-      <div id="accountName">
-        {account.displayName || account.handle || account.did}
-      </div>
-    {:else}
-      <div id="accountName" class="no-avatar">
-        {account.displayName || account.handle || account.did}
+      <div style="display: flex; flex-direction: column; justify-content: center;">
+        {#if welcome}
+        <div id="accountName">
+          A big welcome to our latest member... 
+        </div>
+        {/if}
+        <div id="accountName">
+          {account.displayName || account.handle || account.did}
+        </div>
       </div>
     {/if}
   </div>
