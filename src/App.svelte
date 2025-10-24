@@ -9,7 +9,10 @@
   import type { ComAtprotoRepoListRecords } from "@atcute/client/lexicons";
   import Heatmap from "svelte5-heatmap";
 
+  
   let posts: Post[] = [];
+  let postsLoaded = false;
+
   let heatmapData: Record<string, number> = {};
   let year = new Date().getFullYear();
   let accountsData: any[] = [];
@@ -65,9 +68,9 @@
       }
     }
 
-    getNextPosts().then((initialPosts) => {
-      posts = initialPosts;
-    });
+    const initialPosts = await getNextPosts();
+    posts = [...posts, ...initialPosts];
+    postsLoaded = true;
 
     const allPosts: ComAtprotoRepoListRecords.Record[] = [];
     for (const account of accountsData) {
@@ -85,13 +88,18 @@
     console.log("Heatmap Data:", heatmapData);
   });
 
+
   const onInfinite = ({
     detail: { loaded, complete },
   }: {
     detail: { loaded: () => void; complete: () => void };
   }) => {
+    if (!postsLoaded) {
+      console.warn("Infinite scroll triggered before initial posts loaded.");
+      return;
+    }
+
     getNextPosts().then((newPosts) => {
-      console.log("Loading next posts...");
       if (newPosts.length > 0) {
         posts = [...posts, ...newPosts];
         loaded();
@@ -100,6 +108,7 @@
       }
     });
   };
+
 </script>
 
 <main>
