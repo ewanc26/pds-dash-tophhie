@@ -141,8 +141,8 @@
     <div id="Feed">
       {#if heatmapData}
         <div id="postContainer" style="padding:20px;">
-          <a>Tophhie Social Posts</a>
-          <Heatmap data={heatmapData} {year} lday={false} />
+          <a style={window.innerWidth <= 768 ? "padding-bottom: 10px" : ""}>Tophhie Social Posts</a>
+          <Heatmap data={heatmapData} {year} lday={false} lmonth={window.innerWidth >= 768} />
         </div>
       {/if}
       {#if accountsLoaded}
