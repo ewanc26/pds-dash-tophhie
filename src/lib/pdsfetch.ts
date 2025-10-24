@@ -272,21 +272,17 @@ const getNextPosts = async () => {
 
   const postsAcc: PostsAcc[] = await Promise.all(
     accountsMetadata.map(async (account) => {
-      const posts = await fetchPostsForUser(
+      const result = await fetchPostsForUser(
         account.did,
         account.currentCursor || null,
       );
-      if (posts) {
-        return {
-          posts: posts,
-          account: account,
-        };
-      } else {
-        return {
-          posts: [],
-          account: account,
-        };
-      }
+
+      const records = result?.records ?? [];
+
+      return {
+        posts: records,
+        account: account,
+      };
     }),
   );
   const recordsFiltered = postsAcc.filter((postAcc) =>
@@ -354,12 +350,19 @@ const fetchPostsForUser = async (did: At.Did, cursor: string | null) => {
         cursor: cursor || undefined,
       },
     });
-    return data.records as ComAtprotoRepoListRecords.Record[];
+
+    return {
+      records: data.records as ComAtprotoRepoListRecords.Record[],
+      cursor: data.cursor ?? null,
+    };
   } catch (e) {
     console.error(`Error fetching posts for ${did}:`, e);
-    return null;
+    return {
+      records: [],
+      cursor: null,
+    };
   }
 };
 
-export { getAllMetadataFromPds, getNextPosts, Post };
+export { getAllMetadataFromPds, getNextPosts, Post, fetchPostsForUser };
 export type { AccountMetadata };
