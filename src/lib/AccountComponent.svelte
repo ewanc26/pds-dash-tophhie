@@ -23,11 +23,6 @@
         </div>
       </div>
     {:else}
-    {#if welcome}
-      <div id="accountName">
-        A big welcome to our latest member... 
-      </div>
-      {/if}
       <div style="display: flex; flex-direction: column; width: 100%">
         {#if welcome}
         <div id="accountName">
