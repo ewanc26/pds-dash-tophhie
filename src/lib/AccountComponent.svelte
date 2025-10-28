@@ -34,5 +34,9 @@
         </div>
       </div>
     {/if}
+    <div class="tooltip">
+      &#9432;
+      <span class="tooltiptext">{account.did}</span>
+    </div>
   </div>
 </a>
