@@ -35,7 +35,7 @@
       </div>
     {/if}
     <div class="tooltip">
-      &#9432;
+      <i class="fa fa-info-circle" style="font-size: 20px"></i>
       <span class="tooltiptext">{account.did}</span>
     </div>
   </div>
