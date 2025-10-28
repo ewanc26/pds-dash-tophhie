@@ -446,8 +446,8 @@ h1 {
   padding: 5px 0;
   position: absolute;
   z-index: 1;
-  top: -5px;
-  right: 105%;
+  top: -2px;
+  right: 130%;
 }
 
 .tooltip:hover .tooltiptext {
