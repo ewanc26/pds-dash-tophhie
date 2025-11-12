@@ -263,81 +263,72 @@ const filterPostsByDate = (posts: PostsAcc[], cutoffDate: Date) => {
 };
 
 const postsMutex = new Mutex();
-// nightmare function. However it works so I am not touching it
-const getNextPosts = async () => {
+
+const getNextPosts = async (): Promise<Post[]> => {
   const release = await postsMutex.obtain();
-  if (!accountsMetadata.length) {
-    accountsMetadata = await getAllMetadataFromPds();
-  }
-
-  const postsAcc: PostsAcc[] = await Promise.all(
-    accountsMetadata.map(async (account) => {
-      const result = await fetchPostsForUser(
-        account.did,
-        account.currentCursor || null,
-      );
-
-      const records = result?.records ?? [];
-
-      return {
-        posts: records,
-        account: account,
-      };
-    }),
-  );
-  const recordsFiltered = postsAcc.filter((postAcc) =>
-    postAcc.posts.length > 0
-  );
-  const cutoffDate = getCutoffDate(recordsFiltered);
-  const recordsCutoff = filterPostsByDate(recordsFiltered, cutoffDate);
-  // update the accountMetadata with the new cursor
-  accountsMetadata = accountsMetadata.map((account) => {
-    const postAcc = recordsCutoff.find(
-      (postAcc) => postAcc.account.did == account.did,
-    );
-    if (postAcc) {
-      account.currentCursor = postAcc.account.currentCursor;
+  try {
+    // Ensure metadata is loaded
+    if (!accountsMetadata.length) {
+      accountsMetadata = await getAllMetadataFromPds();
     }
-    return account;
-  }
-  );
-  // throw the records in a big single array
-  let records = recordsCutoff.flatMap((postAcc) => postAcc.posts);
-  // sort the records by timestamp
-  records = records.sort((a, b) => {
-    const aDate = new Date(
-      (a.value as AppBskyFeedPost.Record).createdAt,
-    ).getTime();
-    const bDate = new Date(
-      (b.value as AppBskyFeedPost.Record).createdAt,
-    ).getTime();
-    return bDate - aDate;
-  });
-  // filter out posts that are in the future
-  if (!Config.SHOW_FUTURE_POSTS) {
-    const now = Date.now();
-    records = records.filter((post) => {
-      const postDate = new Date(
-        (post.value as AppBskyFeedPost.Record).createdAt,
-      ).getTime();
-      return postDate <= now;
+
+    // Fetch posts for all accounts
+    const postsAcc: PostsAcc[] = await Promise.all(
+      accountsMetadata.map(async (account) => {
+        const result = await fetchPostsForUser(
+          account.did,
+          account.currentCursor || null
+        );
+
+        const records = result?.records ?? [];
+
+        // Always update cursor, even if no posts
+        if (result?.cursor) {
+          account.currentCursor = result.cursor;
+        }
+
+        return {
+          posts: records,
+          account,
+        };
+      })
+    );
+
+    // Flatten posts
+    let records = postsAcc.flatMap((p) => p.posts);
+
+    // Sort by timestamp (newest first)
+    records.sort((a, b) => {
+      const aDate = new Date((a.value as AppBskyFeedPost.Record).createdAt).getTime();
+      const bDate = new Date((b.value as AppBskyFeedPost.Record).createdAt).getTime();
+      return bDate - aDate;
     });
-  }
 
-  const newPosts = records.map((record) => {
-    const account = accountsMetadata.find(
-      (account) => account.did == processAtUri(record.uri).repo,
-    );
-    if (!account) {
-      throw new Error(
-        `Account with DID ${processAtUri(record.uri).repo} not found`,
-      );
+    // Filter out future posts if needed
+    if (!Config.SHOW_FUTURE_POSTS) {
+      const now = Date.now();
+      records = records.filter((post) => {
+        const postDate = new Date((post.value as AppBskyFeedPost.Record).createdAt).getTime();
+        return postDate <= now;
+      });
     }
-    return new Post(record, account);
-  });
-  // release the mutex
-  release();
-  return newPosts;
+
+    // Map to Post objects
+    const newPosts = records.map((record) => {
+      const account = accountsMetadata.find(
+        (acc) => acc.did === processAtUri(record.uri).repo
+      );
+      if (!account) {
+        throw new Error(`Account with DID ${processAtUri(record.uri).repo} not found`);
+      }
+      return new Post(record, account);
+    });
+
+    console.log(`Fetched ${newPosts.length} posts`);
+    return newPosts;
+  } finally {
+    release();
+  }
 };
 
 const fetchPostsForUser = async (did: At.Did, cursor: string | null) => {

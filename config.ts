@@ -27,7 +27,7 @@ export class Config {
    * since sorting is slow and is done on the frontend
    * @default 20
    */
-  static readonly MAX_POSTS: number = 20;
+  static readonly MAX_POSTS: number = 100;
 
   /**
    * Footer text for the dashboard, you probably want to change this. Supports HTML.
