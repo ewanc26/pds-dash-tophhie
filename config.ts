@@ -41,4 +41,9 @@ export class Config {
    * @default false
    */
   static readonly SHOW_FUTURE_POSTS: boolean = false;
+
+  /**
+   * The URL for the Tophhie Cloud API service.
+   */
+  static readonly TCAPI_URL: string = "https://api.tophhie.cloud";
 }

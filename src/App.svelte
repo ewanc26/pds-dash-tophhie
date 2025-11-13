@@ -5,6 +5,7 @@
   import AccountComponent from "./lib/AccountComponent.svelte";
   import InfiniteLoading from "svelte-infinite-loading";
   import { getNextPosts, Post, getAllMetadataFromPds, fetchPostsForUser } from "./lib/pdsfetch";
+  import { getHeatmapData } from "./lib/tcapifetch"
   import { Config } from "../config";
   import { onMount } from "svelte";
   import type { ComAtprotoRepoListRecords } from "@atcute/client/lexicons";
@@ -41,22 +42,6 @@
     }
   };
 
-  function groupPostsByDate(posts: ComAtprotoRepoListRecords.Record[]): Record<string, number> {
-    const counts: Record<string, number> = {};
-    for (const post of posts) {
-      const value = post.value as any;
-      if (value && typeof value.createdAt === "string") {
-        const date = new Date(value.createdAt);
-        if (!isNaN(date.getTime())) {
-          const dayKey = date.toISOString().split("T")[0];
-          counts[dayKey] = (counts[dayKey] || 0) + 1;
-        }
-      }
-    }
-    console.log("Grouped post counts (object):", counts);
-    return counts;
-  }
-
   onMount(async () => {
     try {
       accountsData = await getAllMetadataFromPds();
@@ -73,20 +58,11 @@
     posts = [...posts, ...initialPosts];
     postsLoaded = true;
 
-    const allPosts: ComAtprotoRepoListRecords.Record[] = [];
-    for (const account of accountsData) {
-      let cursor: string | null = null;
-      let userPosts: ComAtprotoRepoListRecords.Record[] = [];
-      do {
-        const { records, cursor: nextCursor } = await fetchPostsForUser(account.did, cursor);
-        userPosts.push(...records);
-        cursor = nextCursor;
-      } while (cursor);
-      allPosts.push(...userPosts);
+    try {
+      heatmapData = await getHeatmapData()
+    } catch (error) {
+      console.error("Error fetching heatmap data:", error);
     }
-    console.log("Posts for heatmap:", allPosts);
-    heatmapData = groupPostsByDate(allPosts);
-    console.log("Heatmap Data:", heatmapData);
   });
 
 
