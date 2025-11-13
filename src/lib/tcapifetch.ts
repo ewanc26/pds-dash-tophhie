@@ -14,4 +14,18 @@ const getHeatmapData = async (): Promise<Record<string, number>> => {
   }
 };
 
-export { getHeatmapData };
+const getContributors = async (): Promise<any[]> => {
+    try {
+        const response = await fetch(`https://api.github.com/repos/${Config.GITHUB_REPO_OWNER}/${Config.GITHUB_REPO_NAME}/contributors`);
+        if (!response.ok) {
+            throw new Error(`Failed to fetch contributors: ${response.status}`);
+        }
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error("Error fetching contributors:", error);
+        throw error;
+    }
+}
+
+export { getHeatmapData, getContributors };

@@ -5,12 +5,14 @@
   import AccountComponent from "./lib/AccountComponent.svelte";
   import InfiniteLoading from "svelte-infinite-loading";
   import { getNextPosts, Post, getAllMetadataFromPds, fetchPostsForUser } from "./lib/pdsfetch";
-  import { getHeatmapData } from "./lib/tcapifetch"
+  import { getContributors, getHeatmapData } from "./lib/tcapifetch"
   import { Config } from "../config";
   import { onMount } from "svelte";
   import type { ComAtprotoRepoListRecords } from "@atcute/client/lexicons";
   import Heatmap from "svelte5-heatmap";
+  import ContributorsModal from "./lib/ContributorsModal.svelte";
 
+  let showModal = false;
   
   let posts: Post[] = [];
   let postsLoaded = false;
@@ -20,6 +22,8 @@
   let accountsData: any[] = [];
   let accountsError: Error | null = null;
   let accountsLoaded = false;
+
+  let contributors: any[] = [];
 
   let hue: number = 1;
   const cycleColors = async () => {
@@ -62,6 +66,12 @@
       heatmapData = await getHeatmapData()
     } catch (error) {
       console.error("Error fetching heatmap data:", error);
+    }
+
+    try {
+      contributors = await getContributors();
+    } catch (error) {
+      console.error("Error fetching contributors:", error)
     }
   });
 
@@ -111,7 +121,11 @@
             <AccountComponent account={accountObject} />
           {/each}
         </div>
-        <p>{@html Config.FOOTER_TEXT}</p>
+        <p>
+          {@html Config.FOOTER_TEXT}
+          <br />
+          Thank you also to our <a href="/#" onclick={() => (showModal = true)}>contributors!</a>
+        </p>
       </div>
     {/if}
 
@@ -131,6 +145,29 @@
       <InfiniteLoading on:infinite={onInfinite} distance={3000} />
     </div>
   </div>
+  <ContributorsModal bind:showModal>
+    {#snippet header()}
+      <p id="Header" style="font-size:20px; padding: 10px;">
+        Thank you to everyone who has contributed to the Tophhie Social dashboard!
+      </p>
+    {/snippet}
+
+    <ul class="contributor-list">
+      {#each contributors as contributor}
+        <li>
+          {#if contributor.avatar_url}
+            <img
+              alt="Avatar of {contributor.login}"
+              src="{contributor.avatar_url}"
+              id="avatar"
+            />
+          {/if}
+          <p>{contributor.login} • {contributor.contributions} contributions</p>
+          <a href="https://github.com/{contributor.login}"><i class="fa fa-brands fa-github" style="font-size: 20px"></i></a>
+        </li>
+      {/each}
+    </ul>
+  </ContributorsModal>
 </main>
 
 <style>

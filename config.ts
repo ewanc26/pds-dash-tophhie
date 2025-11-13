@@ -46,4 +46,14 @@ export class Config {
    * The URL for the Tophhie Cloud API service.
    */
   static readonly TCAPI_URL: string = "https://api.tophhie.cloud";
+
+  /**
+   * The name of the GitHub repository.
+   */
+  static readonly GITHUB_REPO_NAME: string = "pds-dash";
+  
+  /**
+   * The owner of the GitHub repository. 
+   */
+  static readonly GITHUB_REPO_OWNER: string = "Tophhie";
 }
