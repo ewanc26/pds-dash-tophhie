@@ -49,6 +49,9 @@ class Post {
   imagesCid: string[] | null;
   videosLinkCid: string | null;
   gifLink: string | null;
+  facets: any[] | null;
+  imageAlts: string[] | null;
+  externalLink: { uri: string; title: string; description?: string; thumb?: string } | null;
 
   constructor(
     record: ComAtprotoRepoListRecords.Record,
@@ -64,6 +67,9 @@ class Post {
     this.timenotstamp = post.createdAt;
     this.text = post.text;
     this.timestamp = Date.parse(post.createdAt);
+    this.facets = post.facets || null;
+    this.imageAlts = null;
+    this.externalLink = null;
     if (post.reply) {
       this.replyingUri = processAtUri(post.reply.parent.uri);
     } else {
@@ -77,6 +83,9 @@ class Post {
       case "app.bsky.embed.images":
         this.imagesCid = post.embed.images.map(
           (imageRecord: any) => imageRecord.image.ref.$link,
+        );
+        this.imageAlts = post.embed.images.map(
+          (imageRecord: any) => imageRecord.alt || '',
         );
         break;
       case "app.bsky.embed.video":
@@ -92,6 +101,9 @@ class Post {
             this.imagesCid = post.embed.media.images.map(
               (imageRecord) => imageRecord.image.ref.$link,
             );
+            this.imageAlts = post.embed.media.images.map(
+              (imageRecord) => imageRecord.alt || '',
+            );
 
             break;
           case "app.bsky.embed.video":
@@ -100,9 +112,18 @@ class Post {
             break;
         }
         break;
-      case "app.bsky.embed.external": // assuming that external embeds are gifs for now
+      case "app.bsky.embed.external":
+        // Check if it's a GIF
         if (post.embed.external.uri.includes(".gif")) {
           this.gifLink = post.embed.external.uri;
+        } else {
+          // It's a regular external link
+          this.externalLink = {
+            uri: post.embed.external.uri,
+            title: post.embed.external.title || post.embed.external.uri,
+            description: post.embed.external.description,
+            thumb: post.embed.external.thumb?.ref?.$link || undefined,
+          };
         }
         break;
     }
