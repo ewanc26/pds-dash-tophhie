@@ -29,10 +29,10 @@ jobs:
           node-version: '20'
 
       - name: Install Dependencies
-        run: deno task install  # or your actual dependency/install command
+        run: deno install  # or your actual dependency/install command
 
       - name: Build
-        run: deno task build    # your build command
+        run: deno run build    # your build command
 
       - name: Deploy to Azure Static Web Apps
         uses: Azure/static-web-apps-deploy@v1
@@ -53,3 +53,4 @@ jobs:
         with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_CALM_SKY_03E001903 }}
           action: "close"
+
