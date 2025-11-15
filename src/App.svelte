@@ -107,21 +107,21 @@
     {:else}
       <div id="Account">
         <div>
-          <img src="https://blob.tophhie.cloud/tophhiecloud-resources/Logos/tophhiecloud-colour.png" height=50 alt="Tophhie Social Logo" id="Logo" style="padding:20px" />
+          <img src="https://blob.tophhie.cloud/tophhiecloud-resources/Logos/tophhiecloud-colour.png" height=50 alt="Tophhie Social Logo" id="Logo" style="padding-top:15px;" />
           <h1 onclick={carameldansenfusion} id="Header">Tophhie Social</h1>
-          <p style="font-weight:bold;">Home to {accountsData.length} accounts/repos 🎉</p>
+          <p>Home to {accountsData.length} accounts/repos 🎉</p>
         </div>
-        <div style="margin-bottom:20px;">
-          <p>Want to join us?<br /><a href="https://signup.tophhie.social">Sign up now!</a></p>
-          <p>Already on Bluesky?<br /><a href="https://migrate.tophhie.social">Migrate your account now!</a></p>
-          <p>Join the Tophhie Social Community!<br /><a href="https://aka.tophhie.cloud/socialcommunitysignup">Join today!</a></p>
+        <div class="button-group">
+          <a href="https://signup.tophhie.social" class="call-to-action">Sign up now!</a>
+          <a href="https://migrate.tophhie.social" class="call-to-action">Migrate your Bluesky account!</a>
+          <a href="https://aka.tophhie.cloud/socialcommunitysignup" class="call-to-action">Join the Tophhie Social Community!</a>
         </div>
         <div id="accountsList">
           {#each accountsData as accountObject}
             <AccountComponent account={accountObject} />
           {/each}
         </div>
-        <p>
+        <p class="disclaimer-footer">
           {@html Config.FOOTER_TEXT}
           <br />
           Thank you also to our <a href="/#" onclick={() => (showModal = true)}>contributors!</a>
