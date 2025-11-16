@@ -57,3 +57,5 @@ the favicon is located at [`public/favicon.ico`](public/favicon.ico)
 ## license
 
 MIT
+
+Mirrored on Tangled: https://tangled.org/did:plc:ofrbh253gwicbkc5nktqepol/pds-dash-tophhie
