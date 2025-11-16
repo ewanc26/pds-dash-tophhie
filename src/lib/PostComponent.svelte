@@ -200,9 +200,9 @@
         </svg>
         <span>Replying to
           <a
-            href="{Config.FRONTEND_URL}/profile/{post.replyingUri.repo}/post/{post.replyingUri.rkey}"
+            href="{Config.FRONTEND_URL}/profile/{post.replyingHandle || post.replyingUri.repo}/post/{post.replyingUri.rkey}"
             class="context-link"
-            >@{post.replyingUri.repo}</a
+            >@{post.replyingHandle || post.replyingUri.repo}</a
           >
         </span>
       </div>
@@ -217,9 +217,9 @@
         </svg>
         <span>Quoting
           <a
-            href="{Config.FRONTEND_URL}/profile/{post.quotingUri.repo}/post/{post.quotingUri.rkey}"
+            href="{Config.FRONTEND_URL}/profile/{post.quotingHandle || post.quotingUri.repo}/post/{post.quotingUri.rkey}"
             class="context-link"
-            >@{post.quotingUri.repo}</a
+            >@{post.quotingHandle || post.quotingUri.repo}</a
           >
         </span>
       </div>
@@ -337,6 +337,7 @@
   <div
     class="lightbox-overlay"
     onclick={closeLightbox}
+    onkeydown={(e) => e.key === 'Escape' && closeLightbox()}
     role="button"
     tabindex="0"
     aria-label="Close image lightbox"
@@ -395,7 +396,7 @@
       </button>
     {/if}
 
-    <div class="lightbox-content" onclick={(e) => e.stopPropagation()}>
+    <div class="lightbox-content" onclick={(e) => e.stopPropagation()} onkeydown={(e) => e.stopPropagation()} role="dialog" aria-modal="true" tabindex="-1">
       <img
         src={lightboxImage.url}
         alt="Full size post image {lightboxImage.index + 1}"
@@ -680,6 +681,7 @@
     line-height: 1.4;
     display: -webkit-box;
     -webkit-line-clamp: 2;
+    line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
@@ -691,6 +693,7 @@
     line-height: 1.4;
     display: -webkit-box;
     -webkit-line-clamp: 2;
+    line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
