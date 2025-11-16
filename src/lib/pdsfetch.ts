@@ -33,6 +33,7 @@ interface atUriObject {
   repo: string;
   collection: string;
   rkey: string;
+  handle?: string;
 }
 class Post {
   authorDid: string;
@@ -46,6 +47,8 @@ class Post {
   timenotstamp: string;
   quotingUri: atUriObject | null;
   replyingUri: atUriObject | null;
+  quotingHandle: string | null;
+  replyingHandle: string | null;
   imagesCid: string[] | null;
   videosLinkCid: string | null;
   gifLink: string | null;
@@ -76,6 +79,8 @@ class Post {
       this.replyingUri = null;
     }
     this.quotingUri = null;
+    this.quotingHandle = null;
+    this.replyingHandle = null;
     this.imagesCid = null;
     this.videosLinkCid = null;
     this.gifLink = null;
@@ -283,6 +288,25 @@ const filterPostsByDate = (posts: PostsAcc[], cutoffDate: Date) => {
   return filteredPosts;
 };
 
+// Cache for DID to handle resolution
+const didToHandleCache = new Map<string, string>();
+
+const resolveDidToHandle = async (did: string): Promise<string> => {
+  // Check cache first
+  if (didToHandleCache.has(did)) {
+    return didToHandleCache.get(did)!;
+  }
+
+  try {
+    const handle = await blueskyHandleFromDid(did as At.Did);
+    didToHandleCache.set(did, handle);
+    return handle;
+  } catch (e) {
+    console.warn(`Failed to resolve handle for ${did}:`, e);
+    return did; // Fallback to DID if resolution fails
+  }
+};
+
 const postsMutex = new Mutex();
 
 const getNextPosts = async (): Promise<Post[]> => {
@@ -344,6 +368,18 @@ const getNextPosts = async (): Promise<Post[]> => {
       }
       return new Post(record, account);
     });
+
+    // Resolve handles for replies and quotes
+    await Promise.all(
+      newPosts.map(async (post) => {
+        if (post.replyingUri) {
+          post.replyingHandle = await resolveDidToHandle(post.replyingUri.repo);
+        }
+        if (post.quotingUri) {
+          post.quotingHandle = await resolveDidToHandle(post.quotingUri.repo);
+        }
+      })
+    );
 
     console.log(`Fetched ${newPosts.length} posts`);
     return newPosts;
