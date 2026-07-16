@@ -1,6 +1,6 @@
 # pds-dash
 
-a frontend dashboard with stats for your ATProto PDS.
+a frontend dashboard with stats for your AT Protocol PDS.
 
 ## setup
 
